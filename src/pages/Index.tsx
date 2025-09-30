@@ -1,5 +1,7 @@
 import { ChatInterface } from "@/components/ChatInterface";
-import { GraduationCap } from "lucide-react";
+import { NewsSection } from "@/components/NewsSection";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { GraduationCap, MessageSquare, Newspaper } from "lucide-react";
 
 const Index = () => {
   return (
@@ -21,10 +23,29 @@ const Index = () => {
           </p>
         </header>
 
-        {/* Chat Interface */}
-        <div className="h-[calc(100vh-240px)] min-h-[500px]">
-          <ChatInterface />
-        </div>
+        {/* Main Content with Tabs */}
+        <Tabs defaultValue="chat" className="w-full">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-6">
+            <TabsTrigger value="chat" className="flex items-center gap-2">
+              <MessageSquare className="w-4 h-4" />
+              AI Chat
+            </TabsTrigger>
+            <TabsTrigger value="news" className="flex items-center gap-2">
+              <Newspaper className="w-4 h-4" />
+              Daily News
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="chat">
+            <div className="h-[calc(100vh-320px)] min-h-[500px]">
+              <ChatInterface />
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="news">
+            <NewsSection />
+          </TabsContent>
+        </Tabs>
 
         {/* Footer */}
         <footer className="text-center mt-8 text-sm text-muted-foreground">
