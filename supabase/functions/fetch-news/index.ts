@@ -15,52 +15,62 @@ serve(async (req) => {
     const { category } = await req.json();
     console.log('Fetching news for category:', category);
 
-    const searchQueries = {
-      educational: 'latest education news university students learning',
-      job: 'latest job opportunities internships career hiring',
-      all: 'latest education job internship opportunities'
-    };
-
-    const query = searchQueries[category as keyof typeof searchQueries] || searchQueries.all;
-    
-    // Use a news search API or web scraping
-    // For now, returning mock data structure that you would populate with real API
+    // Mock news from Indian government and reliable sources
+    // In production, integrate with actual APIs from these sources
     const mockNews = [
       {
         id: '1',
-        title: 'Top Tech Companies Announce New Internship Programs for 2025',
-        description: 'Major tech firms including Google, Microsoft, and Amazon have opened applications for summer 2025 internships with enhanced benefits.',
-        url: 'https://example.com/news/1',
-        category: 'job',
+        title: 'Ministry of Education Launches New Scholarship Scheme for Engineering Students',
+        description: 'The Central Government announces ₹5000 crore scholarship program for meritorious students in technical education, covering tuition and living expenses.',
+        url: 'https://mhrd.gov.in',
+        category: 'educational',
         publishedAt: new Date().toISOString(),
-        source: 'Tech Career News'
+        source: 'Ministry of Education'
       },
       {
         id: '2',
-        title: 'New Online Certification Programs Launched for Data Science',
-        description: 'Leading universities introduce affordable data science certifications with industry partnerships.',
-        url: 'https://example.com/news/2',
-        category: 'educational',
+        title: 'National Career Service Portal Lists 50,000+ New Job Openings',
+        description: 'NCS Portal updates database with opportunities across government and private sectors, including PSUs and startups. Special focus on fresh graduates.',
+        url: 'https://ncs.gov.in',
+        category: 'job',
         publishedAt: new Date(Date.now() - 3600000).toISOString(),
-        source: 'Education Today'
+        source: 'NCS Portal'
       },
       {
         id: '3',
-        title: 'Remote Work Opportunities Surge in Software Development',
-        description: 'Analysis shows 70% increase in remote software development positions across industries.',
-        url: 'https://example.com/news/3',
-        category: 'job',
+        title: 'AICTE Approves 200+ New Technical Courses for 2025-26',
+        description: 'All India Council for Technical Education approves new industry-aligned courses in AI, Data Science, Cybersecurity, and Green Technologies.',
+        url: 'https://aicte-india.org',
+        category: 'educational',
         publishedAt: new Date(Date.now() - 7200000).toISOString(),
-        source: 'Career Insights'
+        source: 'AICTE'
       },
       {
         id: '4',
-        title: 'AI and Machine Learning Skills Most In-Demand for 2025',
-        description: 'Industry report reveals AI expertise tops employer requirements for new graduates.',
-        url: 'https://example.com/news/4',
-        category: 'educational',
+        title: 'PM Internship Scheme: 1 Lakh Opportunities in Top Companies',
+        description: 'MyGov announces expansion of PM Internship Scheme with leading Indian companies offering stipends up to ₹50,000/month for students.',
+        url: 'https://mygov.in',
+        category: 'job',
         publishedAt: new Date(Date.now() - 10800000).toISOString(),
-        source: 'Skills Report'
+        source: 'MyGov India'
+      },
+      {
+        id: '5',
+        title: 'Skill India Mission Launches Free Certification Programs',
+        description: 'Government initiative offers free online certification in 100+ skills including coding, digital marketing, and entrepreneurship.',
+        url: 'https://skillindia.gov.in',
+        category: 'educational',
+        publishedAt: new Date(Date.now() - 14400000).toISOString(),
+        source: 'Skill India'
+      },
+      {
+        id: '6',
+        title: 'Public Sector Undertakings Announce Campus Recruitment Drive',
+        description: 'PSUs including ONGC, BHEL, and NTPC to recruit 10,000+ engineers through campus placements across India.',
+        url: 'https://pib.gov.in',
+        category: 'job',
+        publishedAt: new Date(Date.now() - 18000000).toISOString(),
+        source: 'PIB India'
       }
     ];
 
