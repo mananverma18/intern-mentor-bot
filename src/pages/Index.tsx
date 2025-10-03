@@ -28,11 +28,11 @@ const Index = () => {
           <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-6">
             <TabsTrigger value="chat" className="flex items-center gap-2">
               <MessageSquare className="w-4 h-4" />
-              AI Mentor
+              Career Guidance
             </TabsTrigger>
             <TabsTrigger value="news" className="flex items-center gap-2">
               <Newspaper className="w-4 h-4" />
-              Daily Updates
+              Daily News
             </TabsTrigger>
             <TabsTrigger value="resources" className="flex items-center gap-2">
               <BookOpen className="w-4 h-4" />
@@ -47,7 +47,16 @@ const Index = () => {
           </TabsContent>
           
           <TabsContent value="news">
-            <NewsSection />
+            <div className="space-y-4">
+              <div className="bg-card rounded-lg p-4 border border-border">
+                <h2 className="text-xl font-semibold mb-2">Daily Educational & Job Updates</h2>
+                <p className="text-sm text-muted-foreground">
+                  Live updates from Government of India sources (PIB, Ministry of Education, AICTE, NCS)
+                  • Auto-refreshes daily with latest news
+                </p>
+              </div>
+              <NewsSection />
+            </div>
           </TabsContent>
 
           <TabsContent value="resources">

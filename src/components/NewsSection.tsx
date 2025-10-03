@@ -65,8 +65,8 @@ export const NewsSection = () => {
         <div className="flex items-center gap-3">
           <Newspaper className="w-8 h-8 text-primary" />
           <div>
-            <h2 className="text-3xl font-bold">Daily News</h2>
-            <p className="text-muted-foreground">Latest educational and job opportunities</p>
+            <h2 className="text-3xl font-bold">Live Government Updates</h2>
+            <p className="text-sm text-muted-foreground">Real-time news from PIB India • Auto-refreshes daily</p>
           </div>
         </div>
         <Button

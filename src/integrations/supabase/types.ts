@@ -71,6 +71,27 @@ export type Database = {
         }
         Relationships: []
       }
+      news_cache: {
+        Row: {
+          created_at: string
+          id: string
+          news_data: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          news_data: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          news_data?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
