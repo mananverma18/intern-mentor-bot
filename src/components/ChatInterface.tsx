@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { ChatMessage } from "./ChatMessage";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-import { Send, Sparkles } from "lucide-react";
+import { Send, Sparkles, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -11,13 +11,33 @@ interface Message {
   content: string;
 }
 
-export const ChatInterface = () => {
-  const [messages, setMessages] = useState<Message[]>([
+const CHAT_STORAGE_KEY = "nextstep-chat-history";
+
+const getInitialMessages = (): Message[] => {
+  try {
+    const stored = localStorage.getItem(CHAT_STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return Array.isArray(parsed) && parsed.length > 0 ? parsed : [
+        {
+          role: "assistant",
+          content: "Hi! I'm NextStep AI, your career guidance companion. Ask me about internships, career paths, skill development, academics, or student life!",
+        },
+      ];
+    }
+  } catch (error) {
+    console.error("Error loading chat history:", error);
+  }
+  return [
     {
       role: "assistant",
-      content: "Hi! I'm your AI internship advisor. Tell me about your skills, interests, or ask me anything about finding internships!",
+      content: "Hi! I'm NextStep AI, your career guidance companion. Ask me about internships, career paths, skill development, academics, or student life!",
     },
-  ]);
+  ];
+};
+
+export const ChatInterface = () => {
+  const [messages, setMessages] = useState<Message[]>(getInitialMessages());
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -30,6 +50,29 @@ export const ChatInterface = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
+    } catch (error) {
+      console.error("Error saving chat history:", error);
+    }
+  }, [messages]);
+
+  const handleClearHistory = () => {
+    const initialMessage: Message[] = [
+      {
+        role: "assistant",
+        content: "Hi! I'm NextStep AI, your career guidance companion. Ask me about internships, career paths, skill development, academics, or student life!",
+      },
+    ];
+    setMessages(initialMessage);
+    localStorage.removeItem(CHAT_STORAGE_KEY);
+    toast({
+      title: "Chat cleared",
+      description: "Your conversation history has been cleared.",
+    });
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -103,14 +146,25 @@ export const ChatInterface = () => {
     <div className="flex flex-col h-full bg-background rounded-2xl shadow-xl border border-border overflow-hidden">
       {/* Header */}
       <div className="bg-gradient-to-r from-primary to-[hsl(220,100%,60%)] px-6 py-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-            <Sparkles className="w-6 h-6 text-white" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold text-white">NextStep AI</h2>
+              <p className="text-sm text-white/80">Your career guidance companion</p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-xl font-semibold text-white">Internship AI Advisor</h2>
-            <p className="text-sm text-white/80">Get personalized career guidance</p>
-          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClearHistory}
+            className="text-white hover:bg-white/20"
+            title="Clear chat history"
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
         </div>
       </div>
 

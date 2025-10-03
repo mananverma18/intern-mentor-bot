@@ -15,11 +15,11 @@ const Index = () => {
               <GraduationCap className="w-7 h-7 text-primary-foreground" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-[hsl(220,100%,60%)] bg-clip-text text-transparent">
-              Student Mentor AI
+              NextStep AI
             </h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Your comprehensive AI-powered guide for career development, academics, skill building, and student life.
+            Your AI-powered career guidance platform with daily educational updates
           </p>
         </header>
 
@@ -57,7 +57,7 @@ const Index = () => {
 
         {/* Footer */}
         <footer className="text-center mt-8 text-sm text-muted-foreground">
-          <p>Powered by AI • Your complete student success companion</p>
+          <p>Powered by AI • Your NextStep to Success</p>
         </footer>
       </div>
     </div>
