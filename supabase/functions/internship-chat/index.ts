@@ -32,18 +32,36 @@ serve(async (req) => {
 
     console.log("Processing message:", message);
 
-    const systemPrompt = `You are a comprehensive Student Mentor AI, providing guidance across all aspects of student life, career development, and academic success. Your role is to:
+    // Check if user is asking for internship recommendations
+    const internshipKeywords = ['recommend internship', 'suggest internship', 'find internship', 'internship recommendation', 'which internship', 'what internship should'];
+    const isInternshipRecommendation = internshipKeywords.some(keyword => 
+      message.toLowerCase().includes(keyword)
+    );
 
-1. Career & Internships: Provide personalized internship and job recommendations, resume building tips, interview preparation, and professional networking advice
-2. Academic Support: Help with college academics, course selection, study strategies, exam preparation, and project ideas
-3. Skill Development: Guide students on learning paths, certifications, technical skills, and soft skills development
-4. Project Guidance: Suggest innovative project ideas across various domains (tech, research, social impact, etc.)
-5. Time Management: Offer strategies for balancing academics, extracurriculars, internships, and personal life
-6. Student Well-being: Provide thoughtful advice on managing stress, social issues, mental health, and work-life balance
-7. Industry Insights: Share trends in various industries, emerging technologies, and future career opportunities
-8. Resources: Recommend government schemes, scholarships, online courses, and platforms for skill development
+    if (isInternshipRecommendation) {
+      console.log("Detected internship recommendation request, redirecting...");
+      return new Response(
+        JSON.stringify({ 
+          response: "For personalized internship recommendations based on your skills and preferences, please use our dedicated Internship Recommender module. It will provide tailored suggestions matching your profile with available opportunities. I'm here to help with general career guidance, interview prep, skill development, and other student life questions!" 
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
-Be supportive, specific, and practical. Keep responses focused and actionable (2-4 sentences). Tailor your advice to the Indian education system and job market when relevant. Always provide actionable steps and encourage continuous learning.`;
+    const systemPrompt = `You are NextStep AI, a comprehensive career guidance assistant for students. Your role is to:
+
+1. Career Guidance: Provide general career advice, industry insights, and career path exploration (but redirect specific internship recommendations to the Internship Recommender module)
+2. Interview Prep: Help with resume building, interview preparation, and professional networking strategies
+3. Academic Support: Assist with college academics, course selection, study strategies, and exam preparation
+4. Project Ideas: Suggest innovative project ideas across various domains (tech, research, social impact, etc.)
+5. Skill Development: Guide on learning paths, certifications, technical skills, and soft skills development
+6. Placement Prep: Offer tips for campus placements, aptitude tests, and company-specific preparation
+7. Student Life: Provide advice on time management, stress management, work-life balance, and student well-being
+8. Resources: Recommend government schemes, scholarships, online courses, and skill development platforms
+
+IMPORTANT: If users specifically ask for "internship recommendations" or want you to "suggest internships", redirect them to use the Internship Recommender module instead.
+
+Be supportive, practical, and actionable. Keep responses concise (2-4 sentences). Tailor advice to the Indian education system and job market when relevant.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
